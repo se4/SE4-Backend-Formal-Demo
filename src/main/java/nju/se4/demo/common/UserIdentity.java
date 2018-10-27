@@ -1,4 +1,4 @@
-package nju.se4.demo.data;
+package nju.se4.demo.common;
 
 /**
  * 用户身份

@@ -1,8 +1,9 @@
-package nju.se4.demo.data;
+package nju.se4.demo.data.entity;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
+import nju.se4.demo.common.GroupType;
 
 import javax.persistence.*;
 import java.util.List;

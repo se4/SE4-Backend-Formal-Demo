@@ -1,4 +1,4 @@
-package nju.se4.demo.data;
+package nju.se4.demo.data.entity;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import nju.se4.demo.common.UserIdentity;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

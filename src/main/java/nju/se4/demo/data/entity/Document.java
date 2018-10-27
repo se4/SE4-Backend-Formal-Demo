@@ -1,4 +1,4 @@
-package nju.se4.demo.data;
+package nju.se4.demo.data.entity;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -19,7 +19,7 @@ public class Document {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonProperty("id")
-    private Integer dataBaseId;
+    private Integer id;
 
     /**
      * 文件名
