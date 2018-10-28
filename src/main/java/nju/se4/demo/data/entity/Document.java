@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
+import java.util.Date;
 
 /**
  * Description:
@@ -39,5 +40,10 @@ public class Document {
     @JsonProperty("owner")
     @OneToOne(fetch = FetchType.EAGER)
     private Group owner;
+
+    /**
+     * 截止日期
+     */
+    private Date ddl;
 
 }
