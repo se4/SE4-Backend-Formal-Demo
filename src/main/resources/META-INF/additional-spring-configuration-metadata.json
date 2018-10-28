@@ -1,0 +1,13 @@
+{
+  "properties": [
+    {
+      "name": "api_url.registerUrl",
+      "type": "java.lang.String",
+      "description": "注册的api地址."
+    },
+    {
+      "name": "api_url.loginUrl",
+      "type": "java.lang.String",
+      "description": "登录的api地址."
+    }
+  ] }

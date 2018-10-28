@@ -54,7 +54,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     /**
      * 注册的时候会在密码前加noop
      */
-    @RequestMapping(value = "/api/v1/authorization/register", method = RequestMethod.POST)
+    @RequestMapping(value = "/authorization/register", method = RequestMethod.POST)
     public Response<UserDTO> signUp(@RequestBody UserDTO userDTO) {
         userDTO.setPassword(NOOP + userDTO.getPassword());
 

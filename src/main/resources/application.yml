@@ -1,0 +1,4 @@
+api_url:
+  loginUrl: /authorization/login
+#  在UserDetailsServiceImpl中还有
+  registerUrl: /authorization/register

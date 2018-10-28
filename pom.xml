@@ -48,6 +48,7 @@
 			<artifactId>jackson-annotations</artifactId>
 			<version>2.9.0</version>
 		</dependency>
+		<!--lombok-->
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
@@ -58,6 +59,11 @@
 			<artifactId>spring-data-jpa</artifactId>
 			<version>2.0.1.RELEASE</version>
 		</dependency>
+		<!--&lt;!&ndash;spring-jdbc by sheen&ndash;&gt;-->
+		<!--<dependency>-->
+			<!--<groupId>org.springframework.boot</groupId>-->
+			<!--<artifactId>spring-boot-starter-jdbc</artifactId>-->
+		<!--</dependency>-->
 
 		<!-- https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt -->
 		<dependency>
@@ -72,8 +78,12 @@
 			<artifactId>fastjson</artifactId>
 			<version>1.2.47</version>
 		</dependency>
-
-
+		<!--spring-boot-configuration-processor-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-configuration-processor</artifactId>
+			<optional>true</optional>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
