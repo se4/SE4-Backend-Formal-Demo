@@ -7,18 +7,14 @@ import nju.se4.demo.util.Response;
 import nju.se4.demo.util.SecurityUtility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 /**
  * @author py
  */
-@Controller
+@RestController
 @RequestMapping("doc")
 public class DocumentController {
     private final DocumentService documentService;
@@ -42,7 +38,7 @@ public class DocumentController {
     /**
      * 获取待处理文档列表
      */
-    @RequestMapping("/")
+    @RequestMapping(value = "", method = RequestMethod.GET)
     public Response<List<DocumentVO>> getDocumentList() {
         String userName = SecurityUtility.getUserName(SecurityContextHolder.getContext());
         return documentService.getDocByUser(userName);

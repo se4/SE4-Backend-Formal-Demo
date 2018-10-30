@@ -8,6 +8,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import nju.se4.demo.common.UserIdentity;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 import java.util.List;
@@ -83,6 +85,7 @@ public class User {
      * 用户的作业们（作业名）
      */
     @ElementCollection
+    @LazyCollection(LazyCollectionOption.FALSE)
     private List<String> assignments;
 
 
