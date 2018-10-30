@@ -1,26 +1,29 @@
 package nju.se4.demo.data.controller;
 
-import nju.se4.demo.data.dao.DocumentDAO;
-import nju.se4.demo.data.entity.Document;
+import nju.se4.demo.data.dao.GroupDAO;
+import nju.se4.demo.data.entity.Group;
+import nju.se4.demo.data.entity.User;
 import nju.se4.demo.data.filter.Filter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
  * Description:
  *
  * @author xxz
- * Created on 10/27/2018
+ * Created on 10/30/2018
  */
 @Component
-public class DocumentDataController implements DataController<Document, Filter> {
-    private final DocumentDAO documentDAO;
+public class GroupController implements DataController<Group, Filter> {
+
+    private final GroupDAO groupDAO;
 
     @Autowired
-    public DocumentDataController(DocumentDAO documentDAO) {
-        this.documentDAO = documentDAO;
+    public GroupController(GroupDAO groupDAO) {
+        this.groupDAO = groupDAO;
     }
 
     /**
@@ -30,8 +33,8 @@ public class DocumentDataController implements DataController<Document, Filter> 
      * @return 添加的实例
      */
     @Override
-    public Document add(Document element) {
-        return documentDAO.save(element);
+    public Group add(Group element) {
+        return groupDAO.save(element);
     }
 
     /**
@@ -41,10 +44,8 @@ public class DocumentDataController implements DataController<Document, Filter> 
      * @return 被删除的实体
      */
     @Override
-    public Document delete(Integer id) {
-        Document toDelete = documentDAO.findDocumentById(id);
-        documentDAO.deleteById(id);
-        return toDelete;
+    public Group delete(Integer id) {
+        throw new UnsupportedOperationException();
     }
 
     /**
@@ -54,8 +55,8 @@ public class DocumentDataController implements DataController<Document, Filter> 
      * @return 更新后的实体
      */
     @Override
-    public Document update(Document element) {
-        return documentDAO.save(element);
+    public Group update(Group element) {
+        return groupDAO.save(element);
     }
 
     /**
@@ -65,14 +66,12 @@ public class DocumentDataController implements DataController<Document, Filter> 
      * @return 符合条件的结果
      */
     @Override
-    public List<Document> find(Filter filter) {
+    public List<Group> find(Filter filter) {
         throw new UnsupportedOperationException();
-
     }
 
-    public Document findByID(Integer id) {
-        return documentDAO.findDocumentById(id);
+    public Group findByMembersContains(User user) {
+        List<User> users = Collections.singletonList(user);
+        return groupDAO.findGroupByMembersContains(users);
     }
-
-
 }

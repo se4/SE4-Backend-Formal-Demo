@@ -1,7 +1,8 @@
 package nju.se4.demo.data.controller;
 
-import nju.se4.demo.data.dao.DocumentDAO;
-import nju.se4.demo.data.entity.Document;
+import nju.se4.demo.data.dao.DivisionDAO;
+import nju.se4.demo.data.entity.Division;
+import nju.se4.demo.data.entity.Group;
 import nju.se4.demo.data.filter.Filter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -12,16 +13,17 @@ import java.util.List;
  * Description:
  *
  * @author xxz
- * Created on 10/27/2018
+ * Created on 10/30/2018
  */
 @Component
-public class DocumentDataController implements DataController<Document, Filter> {
-    private final DocumentDAO documentDAO;
+public class DivisioinDataController implements DataController<Division, Filter> {
+    private final DivisionDAO divisionDAO;
 
     @Autowired
-    public DocumentDataController(DocumentDAO documentDAO) {
-        this.documentDAO = documentDAO;
+    public DivisioinDataController(DivisionDAO divisionDAO) {
+        this.divisionDAO = divisionDAO;
     }
+
 
     /**
      * 添加新实体
@@ -30,8 +32,8 @@ public class DocumentDataController implements DataController<Document, Filter> 
      * @return 添加的实例
      */
     @Override
-    public Document add(Document element) {
-        return documentDAO.save(element);
+    public Division add(Division element) {
+        return divisionDAO.save(element);
     }
 
     /**
@@ -41,10 +43,8 @@ public class DocumentDataController implements DataController<Document, Filter> 
      * @return 被删除的实体
      */
     @Override
-    public Document delete(Integer id) {
-        Document toDelete = documentDAO.findDocumentById(id);
-        documentDAO.deleteById(id);
-        return toDelete;
+    public Division delete(Integer id) {
+        throw new UnsupportedOperationException();
     }
 
     /**
@@ -54,8 +54,8 @@ public class DocumentDataController implements DataController<Document, Filter> 
      * @return 更新后的实体
      */
     @Override
-    public Document update(Document element) {
-        return documentDAO.save(element);
+    public Division update(Division element) {
+        throw new UnsupportedOperationException();
     }
 
     /**
@@ -65,14 +65,14 @@ public class DocumentDataController implements DataController<Document, Filter> 
      * @return 符合条件的结果
      */
     @Override
-    public List<Document> find(Filter filter) {
+    public List<Division> find(Filter filter) {
         throw new UnsupportedOperationException();
-
     }
 
-    public Document findByID(Integer id) {
-        return documentDAO.findDocumentById(id);
+    /**
+     * 按小组查找分工
+     */
+    public List<Division> findByGroup(Group group) {
+        return divisionDAO.findAllByLabor(group);
     }
-
-
 }

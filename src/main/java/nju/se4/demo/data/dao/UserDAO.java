@@ -16,4 +16,6 @@ import org.springframework.stereotype.Component;
 public interface UserDAO extends CrudRepository<User, Integer>, JpaSpecificationExecutor<User> {
 
     User findUserByUsername(String username);
+
+    User findUserById(Integer id);
 }

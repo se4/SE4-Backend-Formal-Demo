@@ -15,4 +15,6 @@ public interface DocumentDAO extends JpaSpecificationExecutor<Document>, CrudRep
 
     Document findDocumentById(Integer id);
 
+//    Document findAllBy
+
 }

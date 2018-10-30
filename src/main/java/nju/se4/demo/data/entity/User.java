@@ -9,10 +9,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import nju.se4.demo.common.UserIdentity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
 /**
  * Description:
@@ -81,5 +79,15 @@ public class User {
     @JsonProperty("updatedAt")
     private String updateTime;
 
+    /**
+     * 用户的作业们（作业名）
+     */
+    @ElementCollection
+    private List<String> assignments;
 
+
+    @ManyToOne
+    @JsonIgnore
+    @JoinColumn(referencedColumnName = "group_id")
+    private Group group;
 }

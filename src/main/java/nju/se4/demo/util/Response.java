@@ -22,6 +22,10 @@ public class Response<T> {
     public Response() {
     }
 
+    public Response(T data) {
+        this.data = data;
+    }
+
     public Response(Abilities abilities, T data, Meta meta) {
         this.abilities = abilities;
         this.data = data;
