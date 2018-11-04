@@ -31,6 +31,7 @@ public class DivisioinDataController implements DataController<Division, Filter>
      * @param element 需要添加的实例
      * @return 添加的实例
      */
+    //todo:add之前应该主动将id置为null再插入(防止用来做update-虽然一般都是现场组装entity插入的,id都是null,但是add和update的代码总要有点差别)
     @Override
     public Division add(Division element) {
         return divisionDAO.save(element);
