@@ -1,6 +1,8 @@
 package nju.se4.demo.data.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.List;
@@ -13,6 +15,8 @@ import java.util.List;
  * Created on 10/30/2018
  */
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
 @Data
 public class Homework {
     @Id

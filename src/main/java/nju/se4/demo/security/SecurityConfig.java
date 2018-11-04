@@ -41,11 +41,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         JwtLoginFilter loginFilter = new JwtLoginFilter(authenticationManager());
         loginFilter.setUserDAO(userDAO);
         loginFilter.setAuthenticationFailureHandler(new AuthFailHandler());
-        loginFilter.setRequiresAuthenticationRequestMatcher(new AntPathRequestMatcher("/authorization/login", "POST"));
+        loginFilter.setRequiresAuthenticationRequestMatcher(new AntPathRequestMatcher(loginUrl, "POST"));
         JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(authenticationManager(), userDetailsServiceImpl, new RestAuthorEntry());
         http
                 .authorizeRequests()
-                .antMatchers("/authorization/register").permitAll()
+                .antMatchers(registerUrl).permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .addFilter(loginFilter)

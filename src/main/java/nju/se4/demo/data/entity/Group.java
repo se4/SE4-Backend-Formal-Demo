@@ -2,7 +2,10 @@ package nju.se4.demo.data.entity;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import nju.se4.demo.common.GroupType;
 
 import javax.persistence.*;
@@ -17,7 +20,10 @@ import java.util.List;
  */
 @Entity
 @Data
+@Builder
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "se_group")
 public class Group {
     @Id
