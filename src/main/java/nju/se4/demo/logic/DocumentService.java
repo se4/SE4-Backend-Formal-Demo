@@ -18,7 +18,7 @@ public interface DocumentService {
      * 分发文档
      * @return
      */
-    Response<List<DocumentVO>> distributeDocs();
+    Response<Boolean> distributeDocs();
 
     /**
      * 提交某一文档的CheckList

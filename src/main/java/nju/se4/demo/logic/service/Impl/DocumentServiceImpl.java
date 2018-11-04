@@ -13,7 +13,6 @@ import nju.se4.demo.logic.DocumentService;
 import nju.se4.demo.util.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 import java.util.List;
@@ -27,10 +26,11 @@ public class DocumentServiceImpl implements DocumentService {
     private final GroupController groupController;
 
     @Autowired
-    public DocumentServiceImpl(DocumentDataController documentDataController, DivisioinDataController divisioinDataController, UserDataController userDataController) {
+    public DocumentServiceImpl(DocumentDataController documentDataController, DivisioinDataController divisioinDataController, UserDataController userDataController, GroupController groupController) {
         this.documentDataController = documentDataController;
         this.divisioinDataController = divisioinDataController;
         this.userDataController = userDataController;
+        this.groupController = groupController;
     }
 
     @Override
@@ -77,21 +77,28 @@ public class DocumentServiceImpl implements DocumentService {
      * @return
      */
     @Override
-    public Response<List<DocumentVO>> distributeDocs() {
+    public Response<Boolean> distributeDocs() {
         List<Document> documentList = documentDataController.listDocument();
         Collections.shuffle(documentList);
-        int docSize = documentList.size();
-        List<User> list = userDataController.listStudents();
-        List<>
+        List<Group> groupList = groupController.findAll();
         int groupSize = groupController.getGroupSize();
 
-        for(int i = 0; i < docSize; i++) {
-            for(int j = 0; j < groupSize; j++) {
-
+        for (Document aDocumentList : documentList) {
+            for (int j = 0; j < groupSize; j++) {
+                int k = 1;
+                if(!groupList.get(j).equals(aDocumentList.getOwner())) {
+                    Division division = new Division();
+                    division.setDocument(aDocumentList);
+                    division.setLabor(groupList.get(j));
+                    k++;
+                }
+                if ( k == 3 ) {
+                    break;
+                }
             }
         }
 
-        return null;
+        return new Response<>(true);
     }
 
     /**

@@ -78,4 +78,8 @@ public class GroupController implements DataController<Group, Filter> {
     public int getGroupSize() {
         return groupDAO.findAll().size();
     }
+
+    public List<Group> findAll() {
+        return groupDAO.findAll();
+    }
 }
