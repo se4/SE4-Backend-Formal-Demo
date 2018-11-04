@@ -12,6 +12,7 @@ import nju.se4.demo.logic.DocumentService;
 import nju.se4.demo.util.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -30,6 +31,7 @@ public class DocumentServiceImpl implements DocumentService {
     }
 
     @Override
+    //@Transactional(readOnly=true)//todo:只读事务(虽然不是很必要-因为我们似乎没有很强的一致性要求,所以加不加事务好像没影响)/by sheen
     public Response<Document> getDocById(int id) {
         Document documentByID = documentDataController.findByID(id);
         Response<Document> response = new Response<>(documentByID);
@@ -40,6 +42,7 @@ public class DocumentServiceImpl implements DocumentService {
      * 获得某个用户的待处理文档列表
      */
     @Override
+    //@Transactional(readOnly=true)//todo:只读事务(虽然不是很必要-因为我们似乎没有很强的一致性要求,所以加不加事务好像没影响)/by sheen
     public Response<List<DocumentVO>> getDocByUser(String username) {
         User user = userDataController.findByUsername(username);
         Group userGroup = user.getGroup();

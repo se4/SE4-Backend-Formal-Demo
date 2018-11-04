@@ -2,6 +2,11 @@ package nju.se4.demo.data.entity;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 
@@ -22,6 +27,9 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "document")
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class Document {
     @Id
@@ -37,8 +45,9 @@ public class Document {
     private String name;
 
     /**
-     * 文件内容
+     * 文件内容 todo:可能这一列要指定为TEXT格式?
      */
+    @Column(columnDefinition="MEDIUMTEXT")
     @JsonProperty("content")
     private String content;
 
