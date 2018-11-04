@@ -18,4 +18,6 @@ public interface GroupDAO extends CrudRepository<Group, Integer> {
     Group findGroupById(Integer id);
 
     Group findGroupByMembersContains(List<User> members);
+
+    List<Group> findAll();
 }

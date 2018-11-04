@@ -48,6 +48,7 @@
 			<artifactId>jackson-annotations</artifactId>
 			<version>2.9.0</version>
 		</dependency>
+
 		<!--lombok-->
 		<dependency>
 			<groupId>org.projectlombok</groupId>

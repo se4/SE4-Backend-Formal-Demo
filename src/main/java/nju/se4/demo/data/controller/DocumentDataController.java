@@ -74,5 +74,9 @@ public class DocumentDataController implements DataController<Document, Filter> 
         return documentDAO.findDocumentById(id);
     }
 
+    public List<Document> listDocument() {
+        return (List<Document>) documentDAO.findAll();
+    }
+
 
 }

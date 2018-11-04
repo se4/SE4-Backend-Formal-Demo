@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
+import java.util.List;
 
 /**
  * Description:
@@ -57,6 +58,5 @@ public class Document {
     @JsonProperty("owner")
     @OneToOne(fetch = FetchType.EAGER)
     private Group owner;
-
 
 }

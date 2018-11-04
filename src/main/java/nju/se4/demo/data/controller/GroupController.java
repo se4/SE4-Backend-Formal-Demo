@@ -74,4 +74,8 @@ public class GroupController implements DataController<Group, Filter> {
         List<User> users = Collections.singletonList(user);
         return groupDAO.findGroupByMembersContains(users);
     }
+
+    public int getGroupSize() {
+        return groupDAO.findAll().size();
+    }
 }

@@ -46,4 +46,14 @@ public class DocumentController {
         return documentService.getDocByUser(userName);
     }
 
+    /**
+     * todo: 获取对应文档id的checkList，List<String>考虑一下
+     */
+    @RequestMapping(value = "/{docId}/checklist", method = RequestMethod.GET)
+    @ResponseBody
+    public Response<List<String>> getCheckListById(@PathVariable Integer docId) {
+        return documentService.getCheckListById(docId);
+    }
+
+
 }

@@ -1,5 +1,7 @@
 package nju.se4.demo.data.controller;
 
+import com.sun.javafx.geom.transform.Identity;
+import nju.se4.demo.common.UserIdentity;
 import nju.se4.demo.data.dao.UserDAO;
 import nju.se4.demo.data.entity.User;
 import nju.se4.demo.data.filter.Filter;
@@ -72,6 +74,10 @@ public class UserDataController implements DataController<User, Filter> {
 
     public User findByUsername(String username) {
         return userDAO.findUserByUsername(username);
+    }
+
+    public List<User> listStudents() {
+        return userDAO.findByIdentity(UserIdentity.STUDENT);
     }
 
 }
