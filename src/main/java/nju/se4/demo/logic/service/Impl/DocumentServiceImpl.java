@@ -90,6 +90,7 @@ public class DocumentServiceImpl implements DocumentService {
                     Division division = new Division();
                     division.setDocument(aDocumentList);
                     division.setLabor(groupList.get(j));
+                    divisioinDataController.add(division);
                     k++;
                 }
                 if ( k == 3 ) {
