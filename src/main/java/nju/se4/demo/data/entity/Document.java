@@ -59,4 +59,5 @@ public class Document {
     @OneToOne(fetch = FetchType.EAGER)
     private Group owner;
 
+
 }

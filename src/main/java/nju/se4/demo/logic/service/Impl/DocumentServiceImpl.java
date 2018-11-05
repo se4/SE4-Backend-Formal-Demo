@@ -5,10 +5,7 @@ import nju.se4.demo.data.controller.DivisioinDataController;
 import nju.se4.demo.data.controller.DocumentDataController;
 import nju.se4.demo.data.controller.GroupController;
 import nju.se4.demo.data.controller.UserDataController;
-import nju.se4.demo.data.entity.Division;
-import nju.se4.demo.data.entity.Document;
-import nju.se4.demo.data.entity.Group;
-import nju.se4.demo.data.entity.User;
+import nju.se4.demo.data.entity.*;
 import nju.se4.demo.logic.DocumentService;
 import nju.se4.demo.util.Response;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -108,7 +105,7 @@ public class DocumentServiceImpl implements DocumentService {
      * @return
      */
     @Override
-    public Response<List<String>> addCheckList(int id) {
+    public Response<CheckList> addCheckList(int id) {
         Document document = documentDataController.findByID(id);
 
         return null;

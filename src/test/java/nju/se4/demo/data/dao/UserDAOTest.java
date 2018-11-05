@@ -27,7 +27,7 @@ public class UserDAOTest {
         user.setPassword("admin1");
         userDAO.save(user);
         List<User> list = new ArrayList<>();
-        list = userDAO.findByIdentity(UserIdentity.STUDENT);
+        list = userDAO.findByUserIdentity(UserIdentity.STUDENT);
         System.out.println(list.size());
     }
 }
