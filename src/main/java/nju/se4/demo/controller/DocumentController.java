@@ -5,10 +5,8 @@ import nju.se4.demo.data.entity.CheckListItem;
 import nju.se4.demo.data.entity.Document;
 import nju.se4.demo.logic.DocumentService;
 import nju.se4.demo.util.Response;
-import nju.se4.demo.util.SecurityUtility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -40,13 +38,11 @@ public class DocumentController {
 
     /**
      * 获取待处理文档列表
-     * todo:其实获得用户名可以这样写'public Response<List<DocumentVO>> getDocumentList(@AuthenticationPrincipal String username)'/by sheen
      * todo:还有我有一个问题,显然Response应该是用来做通讯的VO封装,直接从service返回上来好吗?,这样controller如果要调用两个service然后组装岂不是还要拆包/by sheen
      */
     @RequestMapping(value = "", method = RequestMethod.GET)
-    public Response<List<DocumentVO>> getDocumentList() {
-        String userName = SecurityUtility.getUserName(SecurityContextHolder.getContext());
-        return documentService.getDocByUser(userName);
+    public Response<List<DocumentVO>> getDocumentList(@AuthenticationPrincipal String username) {
+        return documentService.getDocByUser(username);
     }
 
     /**
