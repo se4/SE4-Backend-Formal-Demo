@@ -1,7 +1,7 @@
 package nju.se4.demo.logic;
 
 import nju.se4.demo.DocumentVO;
-import nju.se4.demo.data.entity.CheckList;
+import nju.se4.demo.data.entity.CheckListItem;
 import nju.se4.demo.data.entity.Document;
 import nju.se4.demo.util.Response;
 
@@ -13,20 +13,16 @@ public interface DocumentService {
     Response<List<DocumentVO>> getDocByUser(String username);
 
 
-    Response<List<String>> getCheckListById(int id);
+    Response<List<CheckListItem>> getCheckListById(int id);
 
     /**
      * 分发文档
-     * @return
      */
     Response<Boolean> distributeDocs();
 
+
     /**
-     * 提交某一文档的CheckList
-     * @param id
-     * @return
+     * 提交某一文档的checklist
      */
-    Response<CheckList> addCheckList(int id);
-
-
+    boolean addCheckList(List<CheckListItem> checkList, String username, Integer documentID);
 }

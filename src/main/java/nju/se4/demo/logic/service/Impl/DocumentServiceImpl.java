@@ -1,16 +1,14 @@
 package nju.se4.demo.logic.service.Impl;
 
 import nju.se4.demo.DocumentVO;
-import nju.se4.demo.data.controller.DivisioinDataController;
-import nju.se4.demo.data.controller.DocumentDataController;
-import nju.se4.demo.data.controller.GroupController;
-import nju.se4.demo.data.controller.UserDataController;
+import nju.se4.demo.data.controller.*;
 import nju.se4.demo.data.entity.*;
 import nju.se4.demo.logic.DocumentService;
 import nju.se4.demo.util.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,13 +19,15 @@ public class DocumentServiceImpl implements DocumentService {
     private final DivisioinDataController divisioinDataController;
     private final UserDataController userDataController;
     private final GroupController groupController;
+    private final ChecklistItemController checklistItemController;
 
     @Autowired
-    public DocumentServiceImpl(DocumentDataController documentDataController, DivisioinDataController divisioinDataController, UserDataController userDataController, GroupController groupController) {
+    public DocumentServiceImpl(DocumentDataController documentDataController, DivisioinDataController divisioinDataController, UserDataController userDataController, GroupController groupController, ChecklistItemController checklistItemController) {
         this.documentDataController = documentDataController;
         this.divisioinDataController = divisioinDataController;
         this.userDataController = userDataController;
         this.groupController = groupController;
+        this.checklistItemController = checklistItemController;
     }
 
     @Override
@@ -58,15 +58,22 @@ public class DocumentServiceImpl implements DocumentService {
     }
 
     /**
-     * todo: 坐等checkList
-     * @param id
+     * @param id 文档ID
      * @return
      */
     @Override
-    public Response<List<String>> getCheckListById(int id) {
+    public Response<List<CheckListItem>> getCheckListById(int id) {
         Document document = documentDataController.findByID(id);
-        Response<List<String>> response = new Response<>(null);
-        return response;
+        List<CheckListItem> checkList = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            CheckListItem checkListItem = new CheckListItem();
+            checkListItem.setContent("测试ck表项" + i);
+            checkListItem.setDocument(document);
+            checkListItem.setExplanation("这里是老师的解释" + i);
+            checkList.add(checkListItem);
+        }
+
+        return new Response<>(checkList);
     }
 
     /**
@@ -100,15 +107,22 @@ public class DocumentServiceImpl implements DocumentService {
     }
 
     /**
-     * todo: 缺checkList
-     * @param id
-     * @return
+     * 提交某一文档的checklist
+     *
+     * @param checkList 文档的checklist
+     * @param username     checklist的作者
+     * @param documentID  checklist所评价的文档
      */
     @Override
-    public Response<CheckList> addCheckList(int id) {
-        Document document = documentDataController.findByID(id);
-
-        return null;
+    public boolean addCheckList(List<CheckListItem> checkList, String username, Integer documentID) {
+        Group group = groupController.findByMembersContains(userDataController.findByUsername(username));
+        Document document = documentDataController.findByID(documentID);
+        for (CheckListItem checkListItem : checkList) {
+            checkListItem.setCommentGroup(group);
+            checkListItem.setDocument(document);
+            checklistItemController.add(checkListItem);
+        }
+        return true;
     }
 
 

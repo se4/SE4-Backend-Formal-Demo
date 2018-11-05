@@ -1,11 +1,13 @@
 package nju.se4.demo.controller;
 
 import nju.se4.demo.DocumentVO;
+import nju.se4.demo.data.entity.CheckListItem;
 import nju.se4.demo.data.entity.Document;
 import nju.se4.demo.logic.DocumentService;
 import nju.se4.demo.util.Response;
 import nju.se4.demo.util.SecurityUtility;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,6 +29,7 @@ public class DocumentController {
 
     /**
      * 按id查找文档
+     *
      * @param docId 需要获得详情的文档id
      */
     @RequestMapping(value = "/{docId}", method = RequestMethod.GET)
@@ -47,13 +50,22 @@ public class DocumentController {
     }
 
     /**
-     * todo: 获取对应文档id的checkList，List<String>考虑一下
+     * 获取对应文档id的checkList
      */
     @RequestMapping(value = "/{docId}/checklist", method = RequestMethod.GET)
     @ResponseBody
-    public Response<List<String>> getCheckListById(@PathVariable Integer docId) {
+    public Response<List<CheckListItem>> getCheckListById(@PathVariable Integer docId) {
         return documentService.getCheckListById(docId);
     }
 
 
+    /**
+     * 提交某一文档的checklist
+     */
+    @RequestMapping(value = "/{docId}/checklist", method = RequestMethod.POST)
+    public void submitChecklist(@AuthenticationPrincipal String username,
+                                @PathVariable Integer docId,
+                                @RequestBody Response<List<CheckListItem>> checklist) {
+        documentService.addCheckList(checklist.getData(), username, docId);
+    }
 }
