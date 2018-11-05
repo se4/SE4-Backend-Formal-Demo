@@ -92,4 +92,14 @@ public class Request<T> {
         }
         return "http://localhost:" + port +path+parameters;
     }
+    public static String getToken(String username, String password,String path, TestRestTemplate restTemplate, int port) {
+        HashMap<String,String> postMap=new HashMap<>();
+        postMap.put("username",username);
+        postMap.put("password",password);
+        Class<String> responseType=String.class;
+        ResponseEntity responseEntity = Request.builder(restTemplate, responseType,port,path)
+                .setBody(postMap)
+                .sendPOST();
+        return responseEntity.getHeaders().get("Authorization").get(0);
+    }
 }

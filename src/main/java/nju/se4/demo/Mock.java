@@ -4,7 +4,11 @@ import nju.se4.demo.common.GroupType;
 import nju.se4.demo.common.UserIdentity;
 import nju.se4.demo.data.dao.*;
 import nju.se4.demo.data.entity.*;
+import nju.se4.demo.logic.DocumentService;
+import nju.se4.demo.security.SecurityUser;
+import nju.se4.demo.security.others.SecurityUserDAO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
@@ -28,16 +32,26 @@ public class Mock {
     private static DocumentDAO documentDAO;
     private static DivisionDAO divisionDAO;
     private static HomeworkDAO homeworkDAO;
+    private static SecurityUserDAO securityUserDAO;
+    private static DocumentService documentService;
     @Autowired
-    public Mock(UserDAO userDAO, GroupDAO groupDAO, DocumentDAO documentDAO, DivisionDAO divisionDAO, HomeworkDAO homeworkDAO) {
+    public Mock(UserDAO userDAO, GroupDAO groupDAO, DocumentDAO documentDAO, DivisionDAO divisionDAO,
+                HomeworkDAO homeworkDAO, SecurityUserDAO securityUserDAO,DocumentService documentService) {
         Mock.userDAO = userDAO;
         Mock.groupDAO = groupDAO;
         Mock.documentDAO = documentDAO;
         Mock.divisionDAO = divisionDAO;
         Mock.homeworkDAO = homeworkDAO;
+        Mock.securityUserDAO=securityUserDAO;
+        Mock.documentService=documentService;
     }
 
+//    @Value("${constV.encryption}")
+//    public void setEncryption(String encryption) {
+//        Mock.ENCY = encryption;
+//    }
 
+    private static String ENCY;
     private static String hwName="第二周作业测试";
     private static Homework testHomeWork=new Homework(null,hwName,new ArrayList<>());
 
@@ -63,6 +77,7 @@ public class Mock {
     private static User kunduin3=UB("kunduin3").assignments(combineList(hwName)).build();
     private static User kunduin4=UB("kunduin4").assignments(combineList(hwName)).build();
     public static void initDB() throws IOException {
+//        System.out.println(ENCY);
         if(homeworkDAO.findHomeworkByName(hwName)!=null){
             System.out.println(hwName+"相关测试数据已经加载");
             return;
@@ -86,6 +101,8 @@ public class Mock {
         youDoc.setContent(doc);     documentDAO.save(youDoc);
         baiDoc.setContent(doc);     documentDAO.save(baiDoc);
         kunduinDoc.setContent(doc); documentDAO.save(kunduinDoc);
+//      ------------------------------------
+        documentService.distributeDocs();
     }
 
     private static void addGroup(Group group,User... users){
@@ -93,7 +110,9 @@ public class Mock {
             group.getMembers().add(u);
             u.setGroup(group);
             userDAO.save(u);
+            securityUserDAO.save(new SecurityUser(u));
         }
+
         groupDAO.save(group);
 
     }
@@ -102,7 +121,7 @@ public class Mock {
     }
     private static User.UserBuilder UB(String username){
         return User.builder().userIdentity(UserIdentity.STUDENT).bio("我是小白名叫"+username+"的一个分身")
-                .username(username).password(username).nickName(username).createTime("2018-11-04").updateTime("2018-11-04")
+                .username(username).password("{noop}"+username).nickName(username).createTime("2018-11-04").updateTime("2018-11-04")
                 .avatar("http://qlogo1.store.qq.com/qzone/648985752/648985752/100?1525621350");
     }
     private static Group.GroupBuilder GB(String name){

@@ -23,5 +23,5 @@ public interface UserDAO extends CrudRepository<User, Integer>, JpaSpecification
     User findUserById(Integer id);
 
 
-    List<User> findByIdentity(UserIdentity userIdentity);
+    List<User> findByUserIdentity(UserIdentity userIdentity);
 }

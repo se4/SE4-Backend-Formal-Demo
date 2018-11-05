@@ -77,7 +77,7 @@ public class UserDataController implements DataController<User, Filter> {
     }
 
     public List<User> listStudents() {
-        return userDAO.findByIdentity(UserIdentity.STUDENT);
+        return userDAO.findByUserIdentity(UserIdentity.STUDENT);
     }
 
 }

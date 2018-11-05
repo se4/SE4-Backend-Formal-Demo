@@ -1,11 +1,7 @@
 package nju.se4.demo.web;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import nju.se4.demo.common.UserIdentity;
-import nju.se4.demo.data.entity.User;
-import nju.se4.demo.util.Random;
+import com.alibaba.fastjson.JSON;
 import nju.se4.demo.util.Request;
-import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,78 +15,79 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
- * @ClassName RegisterLoginTest
+ * @ClassName DocTests
  * @PackageName nju.se4.demo.web
  * @Author sheen
- * @Date 2018/10/28
+ * @Date 2018/11/5
  * @Version 1.0
  * @Description //TODO
  **/
-
-
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class RegisterLoginTest {
-
+public class DocTests {
     @LocalServerPort
     private int port;
     @Autowired
     private TestRestTemplate restTemplate;
-    private static User STUDENT_USER;
-    private static HashMap<String,String> POST_MAP;
-    private static String USERNAME;
-    private static String PASSWORD;
-    private static String NICKNAME;
-//    private UserIdentity userIdentity;
-    private static String TOKEN;
     @Value("${server.servlet.context-path}")
     private String apiVersion;
     @Value("${api_url.loginUrl}")
     private String loginUrl;
-
-    @Value("${api_url.registerUrl}")
-    private String registerUrl;
-
-    @BeforeClass
-    public static void setUp() throws Exception {
-        USERNAME= Random.getRandomString(10);
-        PASSWORD=Random.getRandomNumberAndCharacter(8);
-        NICKNAME= Random.getRandomString(6);
-    }
+    @Value("${api_url.docUrl}")
+    private String docUrl;
+    @Value("${constV.tokenHeader}")
+    private String Authorization;
+    private static String USERNAME_PASSWORD="wuXinYu";
+    private static String TOKEN;
     @Test
-    public void test01_userRegister() {
-        String path=apiVersion+registerUrl;
-        POST_MAP=new HashMap<>();POST_MAP.put("username",USERNAME);POST_MAP.put("password",PASSWORD);POST_MAP.put("nickname",NICKNAME);
+    public void test01_loginToGetToken() {
+        String path=apiVersion+loginUrl;
+        final String token = Request.getToken(USERNAME_PASSWORD, USERNAME_PASSWORD, path, restTemplate, port);
+        assert token!=null;
+        TOKEN=token;
+    }
+    private static Integer docId;
+    @Test
+    public void test02_GetDocs() {
+        String path=apiVersion+docUrl;
         Class<String> responseType=String.class;
         ResponseEntity responseEntity = Request.builder(restTemplate, responseType,port,path)
-                .setBody(POST_MAP)
-                .sendPOST();
+                .putHeaderVariables(Authorization,TOKEN)
+                .sendGET();
         HttpStatus statusCode = responseEntity.getStatusCode();
         System.out.println(Thread.currentThread() .getStackTrace()[1].getMethodName()+"():"+ statusCode);
         System.out.println(responseEntity.toString());
         assert (statusCode.is2xxSuccessful());
         System.out.println("apiVersion:"+apiVersion);
+
+        Map<String,Object> parse = (Map<String,Object>)JSON.parse(responseEntity.getBody().toString());
+        final List<Map> DocSimpleSerializers = (List)(parse.get("data"));
+        docId=(int)(DocSimpleSerializers.get(0).get("id"));
+        assert docId!=0;
     }
     @Test
-    public void test02_login() {
-        String path=apiVersion+loginUrl;
-        POST_MAP=new HashMap<>();POST_MAP.put("username",USERNAME);POST_MAP.put("password",PASSWORD);
+    public void test02_GetOneDoc() {
+        String path=apiVersion+docUrl+"/"+docId;
         Class<String> responseType=String.class;
         ResponseEntity responseEntity = Request.builder(restTemplate, responseType,port,path)
-                .setBody(POST_MAP)
-                .sendPOST();
-
+                .putHeaderVariables(Authorization,TOKEN)
+                .sendGET();
         HttpStatus statusCode = responseEntity.getStatusCode();
         System.out.println(Thread.currentThread() .getStackTrace()[1].getMethodName()+"():"+ statusCode);
-        assert (statusCode.is2xxSuccessful());
-        TOKEN=responseEntity.getHeaders().get("Authorization").get(0);
-        System.out.println(TOKEN);
-    }
 
+        Map<String,Object> parse = (Map<String,Object>)JSON.parse(responseEntity.getBody().toString());
+        assert (statusCode.is2xxSuccessful());
+        assert parse.get("id")!=null;
+        assert parse.get("filename")!=null;
+        assert parse.get("content")!=null;
+        assert parse.get("owner")!=null;
+
+        System.out.println("apiVersion:"+apiVersion);
+    }
 }
