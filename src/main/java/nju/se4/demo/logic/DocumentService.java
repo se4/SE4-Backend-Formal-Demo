@@ -1,6 +1,7 @@
 package nju.se4.demo.logic;
 
 import nju.se4.demo.DocumentVO;
+import nju.se4.demo.data.entity.CheckList;
 import nju.se4.demo.data.entity.Document;
 import nju.se4.demo.util.Response;
 
@@ -25,7 +26,7 @@ public interface DocumentService {
      * @param id
      * @return
      */
-    Response<List<String>> addCheckList(int id);
+    Response<CheckList> addCheckList(int id);
 
 
 }
