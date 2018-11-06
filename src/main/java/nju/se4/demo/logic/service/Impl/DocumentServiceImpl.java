@@ -7,6 +7,7 @@ import nju.se4.demo.logic.DocumentService;
 import nju.se4.demo.util.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -81,6 +82,7 @@ public class DocumentServiceImpl implements DocumentService {
      * @return
      */
     @Override
+    @Transactional
     public Response<Boolean> distributeDocs() {
         List<Document> documentList = documentDataController.listDocument();
         Collections.shuffle(documentList);

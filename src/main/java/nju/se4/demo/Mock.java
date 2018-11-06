@@ -83,15 +83,17 @@ public class Mock {
             return;
         }
         homeworkDAO.save(testHomeWork);
-        groupDAO.save(wuGroup);
-        groupDAO.save(youGroup);
-        groupDAO.save(baiGroup);
-        groupDAO.save(kunduinGroup);
+        List<Group> groupsSave=new ArrayList<>();
+        groupsSave.add(wuGroup);groupsSave.add(youGroup);groupsSave.add(baiGroup);groupsSave.add(kunduinGroup);
+        groupDAO.saveAll(groupsSave);
 //      ----------------addGroupAndSaveUser--------------------
+        LU=new ArrayList<>();LSU=new ArrayList<>();LG=new ArrayList<>();
         addGroup(wuGroup,wuXinYu,wuJiuYu);
         addGroup(youGroup,youXinYu,youJiuYu);
         addGroup(baiGroup,xiaoBai,daBai);
         addGroup(kunduinGroup,kunduin,kunduin2,kunduin3,kunduin4);
+        doSave(LU,LSU,LG);
+        LU=null;LSU=null;LG=null;
 //      ------------------------------------
         Resource resource = new ClassPathResource("case.md");
         File file = resource.getFile();
@@ -105,15 +107,23 @@ public class Mock {
         documentService.distributeDocs();
     }
 
+    private static void doSave(Iterable<User> IU,Iterable<SecurityUser> ISU,Iterable<Group> IG) {
+        userDAO.saveAll(IU);
+        securityUserDAO.saveAll(ISU);
+        groupDAO.saveAll(IG);
+    }
+    private static List<User> LU;
+    private static List<SecurityUser> LSU;
+    private static List<Group> LG;
     private static void addGroup(Group group,User... users){
         for(User u:users){
             group.getMembers().add(u);
             u.setGroup(group);
-            userDAO.save(u);
-            securityUserDAO.save(new SecurityUser(u));
+            LU.add(u);
+            LSU.add(new SecurityUser(u));
         }
 
-        groupDAO.save(group);
+        LG.add(group);
 
     }
     private static void initData(){
