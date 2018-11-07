@@ -62,9 +62,10 @@ public class DocumentController {
      * 提交某一文档的checklist
      */
     @RequestMapping(value = "/{docId}/checklist", method = RequestMethod.POST)
-    public void submitChecklist(@AuthenticationPrincipal String username,
-                                @PathVariable Integer docId,
-                                @RequestBody Response<List<CheckListItem>> checklist) {
+    public Response<String> submitChecklist(@AuthenticationPrincipal String username,
+                                            @PathVariable Integer docId,
+                                            @RequestBody Response<List<CheckListItem>> checklist) {
         checklistService.addCheckList(checklist.getData(), username, docId);
+        return new Response<>("垃圾小白！！！！");
     }
 }

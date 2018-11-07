@@ -12,10 +12,7 @@ import nju.se4.demo.security.exception.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -72,8 +69,10 @@ public class CheckListServiceImpl implements ChecklistService {
         }
         List<CheckListItem> writtenChecklist = checklistItemController.findByGroup(group);
         for (CheckListItem writtenItem : writtenChecklist) {
-            typeMap.remove(writtenItem.getTypeID());
-            typeMap.put(writtenItem.getTypeID(), writtenItem);
+            if (Objects.equals(writtenItem.getDocumentID(), documentID)) {
+                typeMap.remove(writtenItem.getTypeID());
+                typeMap.put(writtenItem.getTypeID(), writtenItem);
+            }
         }
         return new ArrayList<>(typeMap.values());
     }
