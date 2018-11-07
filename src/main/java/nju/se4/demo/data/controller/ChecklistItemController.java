@@ -2,6 +2,7 @@ package nju.se4.demo.data.controller;
 
 import nju.se4.demo.data.dao.CheckListItemDAO;
 import nju.se4.demo.data.entity.CheckListItem;
+import nju.se4.demo.data.entity.Group;
 import nju.se4.demo.data.filter.Filter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -34,6 +35,10 @@ public class ChecklistItemController implements DataController<CheckListItem, Fi
         return checkListItemDAO.save(element);
     }
 
+    public void addAll(List<CheckListItem> checkListItems) {
+        checkListItemDAO.saveAll(checkListItems);
+    }
+
     /**
      * 删除某一实体
      *
@@ -57,6 +62,10 @@ public class ChecklistItemController implements DataController<CheckListItem, Fi
         return checkListItemDAO.save(element);
     }
 
+    public List<CheckListItem> findByGroup(Group group) {
+        return checkListItemDAO.findAllByCommentGroup(group);
+    }
+
     /**
      * 多条件查询
      *
@@ -64,6 +73,7 @@ public class ChecklistItemController implements DataController<CheckListItem, Fi
      * @return 符合条件的结果
      */
     @Override
+
     public List<CheckListItem> find(Filter filter) {
         throw new UnsupportedOperationException();
     }

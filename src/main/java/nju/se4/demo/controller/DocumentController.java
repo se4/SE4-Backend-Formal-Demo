@@ -3,6 +3,7 @@ package nju.se4.demo.controller;
 import nju.se4.demo.DocumentVO;
 import nju.se4.demo.data.entity.CheckListItem;
 import nju.se4.demo.data.entity.Document;
+import nju.se4.demo.logic.ChecklistService;
 import nju.se4.demo.logic.DocumentService;
 import nju.se4.demo.util.Response;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,11 +19,12 @@ import java.util.List;
 @RequestMapping("doc")
 public class DocumentController {
     private final DocumentService documentService;
-
+    private final ChecklistService checklistService;
 
     @Autowired
-    public DocumentController(DocumentService documentService) {
+    public DocumentController(DocumentService documentService, ChecklistService checklistService) {
         this.documentService = documentService;
+        this.checklistService = checklistService;
     }
 
     /**
@@ -50,8 +52,9 @@ public class DocumentController {
      */
     @RequestMapping(value = "/{docId}/checklist", method = RequestMethod.GET)
     @ResponseBody
-    public Response<List<CheckListItem>> getCheckListById(@PathVariable Integer docId) {
-        return documentService.getCheckListById(docId);
+    public Response<List<CheckListItem>> getCheckListById(@AuthenticationPrincipal String username, @PathVariable Integer docId) {
+        List<CheckListItem> checkList = checklistService.getChecklistByDocumentIDAndUsername(docId, username);
+        return new Response<>(checkList);
     }
 
 
@@ -62,6 +65,6 @@ public class DocumentController {
     public void submitChecklist(@AuthenticationPrincipal String username,
                                 @PathVariable Integer docId,
                                 @RequestBody Response<List<CheckListItem>> checklist) {
-        documentService.addCheckList(checklist.getData(), username, docId);
+        checklistService.addCheckList(checklist.getData(), username, docId);
     }
 }

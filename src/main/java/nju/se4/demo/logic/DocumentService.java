@@ -13,7 +13,7 @@ public interface DocumentService {
     Response<List<DocumentVO>> getDocByUser(String username);
 
 
-    Response<List<CheckListItem>> getCheckListById(int id);
+    Response<List<CheckListItem>> getCheckListById(int id, String username);
 
     /**
      * 分发文档

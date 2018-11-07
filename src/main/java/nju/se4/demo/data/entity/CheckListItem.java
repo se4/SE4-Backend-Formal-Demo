@@ -1,8 +1,8 @@
 package nju.se4.demo.data.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
@@ -17,17 +17,33 @@ import javax.persistence.*;
  * 更改类名为checkListItem（checklist表项）
  * @author xxz
  * Created on 11/06/2018
+ *
+ * Update:
+ * 增加typeID
+ * @author xxz
+ * Created on 11/07/2018
+ *
+ * Update:
+ * 将document改为documentid
+ * @author xxz
+ * Created on 11/07/2018
  */
 @Entity
 @Table(name = "check_list")
 @Data
 @AllArgsConstructor
-@NoArgsConstructor
 public class CheckListItem {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    /**
+     * checklist 的编号，如某一文档一共有10个checklistItem，每一组拿到的都应该是checklistItem 0-9
+     */
+    @JsonProperty("fid")
+    private int typeID;
+
     /**
      * 该项评价的内容,
      */
@@ -55,9 +71,16 @@ public class CheckListItem {
     private Group commentGroup;
 
     /**
-     * 所评价的文档
+     * 所评价的文档id
      */
-    @OneToOne
-    private Document document;
+    private Integer documentID;
 
+    public CheckListItem(CheckListItemPrototype prototype) {
+        this.typeID = prototype.getPrototypeID();
+        this.content = prototype.getContent();
+        this.explanation = prototype.getExplanation();
+    }
+
+    public CheckListItem() {
+    }
 }
