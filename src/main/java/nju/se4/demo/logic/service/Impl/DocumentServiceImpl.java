@@ -50,7 +50,17 @@ public class DocumentServiceImpl implements DocumentService {
         List<Division> divisions = divisioinDataController.findByGroup(userGroup);
         List<DocumentVO> documents = divisions.stream()
                 .filter(division ->
-                        user.getAssignments().contains(division.getHomework().getName()))
+                {
+                    //TODO:这里目前先写成始终为true，直到引入"作业"的概念
+                    return true;
+//                    List<String> assignments = Optional.ofNullable(user.getAssignments()).orElse(new ArrayList<>());
+//                    Homework homework = division.getHomework();
+//                    if (homework != null) {
+//                        return assignments.contains(homework.getName());
+//                    }else {
+//                        return false;
+//                    }
+                })
                 .map(Division::getDocument)
                 .map(DocumentVO::new)
                 .collect(Collectors.toList());
@@ -64,12 +74,12 @@ public class DocumentServiceImpl implements DocumentService {
      */
     @Override
     public Response<List<CheckListItem>> getCheckListById(int id) {
-        Document document = documentDataController.findByID(id);
+//        Document document = documentDataController.findByID(id);
         List<CheckListItem> checkList = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
             CheckListItem checkListItem = new CheckListItem();
             checkListItem.setContent("测试ck表项" + i);
-            checkListItem.setDocument(document);
+//            checkListItem.setDocument(document);
             checkListItem.setExplanation("这里是老师的解释" + i);
             checkList.add(checkListItem);
         }

@@ -19,7 +19,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -143,9 +142,10 @@ public class DocTests {
         assert parse.size()>0;
         for(Map<String,Object> checkList:parse){
             assert checkList.get("content")!=null;
-            assert checkList.get("level")!=null;
-            assert checkList.get("comment")!=null;
-            assert checkList.get("explain")!=null;
+            //TODO:在用户第一次获取checklist时，并没有level和comment这两个字段（实际上，这两个是用户自己写的）
+//            assert checkList.get("level")!=null;
+//            assert checkList.get("comment")!=null;
+            assert checkList.get("explanation") != null;
         }
 
         CHECKLISTS=parse;
