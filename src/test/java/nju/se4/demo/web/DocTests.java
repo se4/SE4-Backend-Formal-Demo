@@ -73,6 +73,7 @@ public class DocTests {
         Class<String> responseType=String.class;
         ResponseEntity responseEntity = Request.builder(restTemplate, responseType,port,path)
                 .putHeaderVariables(Authorization,TOKEN)
+                .putUrlVariables("self", "false")
                 .sendGET();
         HttpStatus statusCode = responseEntity.getStatusCode();
 
