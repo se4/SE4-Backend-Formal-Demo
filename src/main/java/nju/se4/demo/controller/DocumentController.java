@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import javax.websocket.server.PathParam;
 import java.util.List;
 
 /**
@@ -39,12 +40,16 @@ public class DocumentController {
     }
 
     /**
-     * 获取待处理文档列表
-     * todo:还有我有一个问题,显然Response应该是用来做通讯的VO封装,直接从service返回上来好吗?,这样controller如果要调用两个service然后组装岂不是还要拆包/by sheen
+     * 获取文档列表
+     * @param self true:自己的文档 false:待处理文档
      */
     @RequestMapping(value = "", method = RequestMethod.GET)
-    public Response<List<DocumentVO>> getDocumentList(@AuthenticationPrincipal String username) {
-        return documentService.getDocByUser(username);
+    public Response<List<DocumentVO>> getDocumentList(@AuthenticationPrincipal String username, @PathParam(value = "self") Boolean self) {
+        if (self) {
+            throw new UnsupportedOperationException();
+        } else {
+            return documentService.getDocByUser(username);
+        }
     }
 
     /**
