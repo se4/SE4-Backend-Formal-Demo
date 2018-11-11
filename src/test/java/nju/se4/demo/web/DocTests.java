@@ -29,7 +29,7 @@ import java.util.Map;
  * @Author sheen
  * @Date 2018/11/5
  * @Version 1.0
- * @Description //TODO
+ * @Description 第一二周api测试
  **/
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -175,4 +175,7 @@ public class DocTests {
         System.out.println(Thread.currentThread() .getStackTrace()[1].getMethodName()+"():"+ statusCode);
         assert (statusCode.is2xxSuccessful());
     }
+
+
+
 }
