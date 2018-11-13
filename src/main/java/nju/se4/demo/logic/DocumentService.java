@@ -11,7 +11,7 @@ import java.util.List;
 public interface DocumentService {
     Response<Document> getDocById(int id);
 
-    Response<List<DocumentVO>> getDocByUser(String username);
+    Response<List<DocumentVO>> getDocToProcessByUser(String username);
 
 
     Response<List<CheckListItem>> getCheckListById(int id, String username);
@@ -34,4 +34,9 @@ public interface DocumentService {
      * @param docID 文档ID
      */
     List<DocResultVO> getDocResult(Integer docID);
+
+    /**
+     * 获得自己的文档
+     */
+    List<Document> getDocByAuthor(String username);
 }

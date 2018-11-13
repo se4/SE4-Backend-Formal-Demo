@@ -109,11 +109,20 @@ public class CheckListServiceImpl implements ChecklistService {
     public boolean addCheckList(List<CheckListItem> checkList, String username, Integer documentID) {
         User user = userDataController.findByUsername(username);
         Group group = user.getGroup();
+        List<CheckListItem> oldCheckList = getChecklistByDocumentIDAndUsername(documentID, username);
+        HashMap<Integer, CheckListItem> idCheckListMap = new HashMap<>();
+        for (CheckListItem checkListItem : oldCheckList) {
+            idCheckListMap.put(checkListItem.getTypeID(), checkListItem);
+        }
+
         for (CheckListItem checkListItem : checkList) {
+            CheckListItem remove = idCheckListMap.remove(checkListItem.getTypeID());
+            checkListItem.setId(remove.getId());
             checkListItem.setCommentGroup(group);
             checkListItem.setDocumentID(documentID);
+            idCheckListMap.put(checkListItem.getTypeID(), checkListItem);
         }
-        checklistItemController.addAll(checkList);
+        checklistItemController.addAll(new ArrayList<>(idCheckListMap.values()));
         return true;
     }
 

@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 @Data
 public class DocResultVO {
 
-    @JsonProperty("wtfID")
+    @JsonProperty("fid")
     private Integer prototypeID;
 
     @JsonProperty("content")
@@ -35,6 +35,10 @@ public class DocResultVO {
         final int FAIL = 0;
         this.content = prototype.getContent();
         this.resultItems = resultItems;
+        int id = 0;
+        for (DocResultItem resultItem : resultItems) {
+            resultItem.setItemID(id++);
+        }
         List<DocResultItem> unpassed = resultItems.stream()
                 .filter(docResultItem -> docResultItem.getLevel() == FAIL)
                 .collect(Collectors.toList());

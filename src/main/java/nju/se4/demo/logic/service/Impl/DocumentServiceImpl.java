@@ -50,12 +50,13 @@ public class DocumentServiceImpl implements DocumentService {
         return response;
     }
 
+
     /**
      * 获得某个用户的待处理文档列表
      */
     @Override
     //@Transactional(readOnly=true)//todo:只读事务(虽然不是很必要-因为我们似乎没有很强的一致性要求,所以加不加事务好像没影响)/by sheen
-    public Response<List<DocumentVO>> getDocByUser(String username) {
+    public Response<List<DocumentVO>> getDocToProcessByUser(String username) {
         User user = userDataController.findByUsername(username);
         Group userGroup = user.getGroup();
         List<Division> divisions = divisioinDataController.findByGroup(userGroup);
@@ -161,6 +162,24 @@ public class DocumentServiceImpl implements DocumentService {
         return ret;
 
 
+    }
+
+    /**
+     * 获得自己的文档
+     *
+     * @param username
+     */
+    @Override
+    public List<Document> getDocByAuthor(String username) {
+        User user = userDataController.findByUsername(username);
+        if (user == null) {
+            throw new NotFoundException("未找到用户");
+        }
+        Group group = user.getGroup();
+        if (group == null) {
+            throw new NotFoundException("未找到用户分组信息");
+        }
+        return documentDataController.findByAuthor(group);
     }
 
 

@@ -2,6 +2,7 @@ package nju.se4.demo.data.controller;
 
 import nju.se4.demo.data.dao.DocumentDAO;
 import nju.se4.demo.data.entity.Document;
+import nju.se4.demo.data.entity.Group;
 import nju.se4.demo.data.filter.Filter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -72,6 +73,10 @@ public class DocumentDataController implements DataController<Document, Filter> 
 
     public Document findByID(Integer id) {
         return documentDAO.findDocumentById(id);
+    }
+
+    public List<Document> findByAuthor(Group author) {
+        return documentDAO.findAllByOwner(author);
     }
 
     public List<Document> listDocument() {

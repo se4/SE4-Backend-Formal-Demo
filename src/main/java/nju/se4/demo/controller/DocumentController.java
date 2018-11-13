@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.websocket.server.PathParam;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author py
@@ -47,9 +48,11 @@ public class DocumentController {
     @RequestMapping(value = "", method = RequestMethod.GET)
     public Response<List<DocumentVO>> getDocumentList(@AuthenticationPrincipal String username, @PathParam(value = "self") Boolean self) {
         if (self) {
-            throw new UnsupportedOperationException();
+            List<Document> docs = documentService.getDocByAuthor(username);
+            List<DocumentVO> documentVOS = docs.stream().map(DocumentVO::new).collect(Collectors.toList());
+            return new Response<>(documentVOS);
         } else {
-            return documentService.getDocByUser(username);
+            return documentService.getDocToProcessByUser(username);
         }
     }
 

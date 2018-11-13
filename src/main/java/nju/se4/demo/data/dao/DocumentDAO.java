@@ -1,8 +1,11 @@
 package nju.se4.demo.data.dao;
 
 import nju.se4.demo.data.entity.Document;
+import nju.se4.demo.data.entity.Group;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.repository.CrudRepository;
+
+import java.util.List;
 
 /**
  * Description:
@@ -15,6 +18,7 @@ public interface DocumentDAO extends JpaSpecificationExecutor<Document>, CrudRep
 
     Document findDocumentById(Integer id);
 
+    List<Document> findAllByOwner(Group group);
 //    Document findAllBy
 
 }

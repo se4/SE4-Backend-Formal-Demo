@@ -12,6 +12,8 @@ import nju.se4.demo.data.entity.CheckListItem;
  */
 @Data
 public class DocResultItem {
+    @JsonProperty("rid")
+    private Integer itemID;
 
     @JsonProperty("level")
     private Integer level;
