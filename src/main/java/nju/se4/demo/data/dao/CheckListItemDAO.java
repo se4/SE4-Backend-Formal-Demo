@@ -11,4 +11,6 @@ import java.util.List;
 public interface CheckListItemDAO extends CrudRepository<CheckListItem, Integer> {
     List<CheckListItem> findAllByCommentGroup(Group commentGroup);
 
+    List<CheckListItem> findAllByDocumentID(Integer documentID);
+
 }

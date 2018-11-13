@@ -1,4 +1,4 @@
-package nju.se4.demo;
+package nju.se4.demo.vo;
 
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import lombok.Data;

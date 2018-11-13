@@ -66,6 +66,10 @@ public class ChecklistItemController implements DataController<CheckListItem, Fi
         return checkListItemDAO.findAllByCommentGroup(group);
     }
 
+    public List<CheckListItem> findByDocID(Integer docID) {
+        return checkListItemDAO.findAllByDocumentID(docID);
+    }
+
     /**
      * 多条件查询
      *

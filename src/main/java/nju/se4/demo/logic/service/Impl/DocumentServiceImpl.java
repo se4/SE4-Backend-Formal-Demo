@@ -1,14 +1,22 @@
 package nju.se4.demo.logic.service.Impl;
 
-import nju.se4.demo.DocumentVO;
-import nju.se4.demo.data.controller.*;
+import nju.se4.demo.data.controller.DivisioinDataController;
+import nju.se4.demo.data.controller.DocumentDataController;
+import nju.se4.demo.data.controller.GroupController;
+import nju.se4.demo.data.controller.UserDataController;
 import nju.se4.demo.data.entity.*;
+import nju.se4.demo.logic.ChecklistService;
 import nju.se4.demo.logic.DocumentService;
+import nju.se4.demo.security.exception.NotFoundException;
 import nju.se4.demo.util.Response;
+import nju.se4.demo.vo.DocResultItem;
+import nju.se4.demo.vo.DocResultVO;
+import nju.se4.demo.vo.DocumentVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -19,15 +27,19 @@ public class DocumentServiceImpl implements DocumentService {
     private final DivisioinDataController divisioinDataController;
     private final UserDataController userDataController;
     private final GroupController groupController;
-    private final ChecklistItemController checklistItemController;
+    private final ChecklistService checklistService;
 
     @Autowired
-    public DocumentServiceImpl(DocumentDataController documentDataController, DivisioinDataController divisioinDataController, UserDataController userDataController, GroupController groupController, ChecklistItemController checklistItemController) {
+    public DocumentServiceImpl(DocumentDataController documentDataController,
+                               DivisioinDataController divisioinDataController,
+                               UserDataController userDataController,
+                               GroupController groupController,
+                               ChecklistService checklistService) {
         this.documentDataController = documentDataController;
         this.divisioinDataController = divisioinDataController;
         this.userDataController = userDataController;
         this.groupController = groupController;
-        this.checklistItemController = checklistItemController;
+        this.checklistService = checklistService;
     }
 
     @Override
@@ -119,6 +131,35 @@ public class DocumentServiceImpl implements DocumentService {
     @Deprecated
     public boolean addCheckList(List<CheckListItem> checkList, String username, Integer documentID) {
         throw new UnsupportedOperationException();
+
+    }
+
+    /**
+     * 获取文档互评结果
+     *
+     * @param docID 文档ID
+     */
+    @Override
+    public List<DocResultVO> getDocResult(Integer docID) {
+        if (docID == null) {
+            throw new NotFoundException("没有有效的docID");
+        }
+        List<CheckListItem> checkListItems = checklistService.getDocResult(docID);
+
+        List<CheckListItemPrototype> prototypes = checklistService.getChecklistPrototypeByDocID(docID);
+
+
+        List<DocResultVO> ret = new ArrayList<>(prototypes.size());
+        for (CheckListItemPrototype prototype : prototypes) {
+            List<DocResultItem> relatedItems = checkListItems.stream()
+                    .filter(checkListItem -> checkListItem.getTypeID() == prototype.getPrototypeID())
+                    .map(DocResultItem::new)
+                    .collect(Collectors.toList());
+            DocResultVO result = new DocResultVO(prototype, relatedItems);
+            ret.add(result);
+        }
+        return ret;
+
 
     }
 

@@ -42,7 +42,7 @@ public class CheckListServiceImpl implements ChecklistService {
      */
     @Override
     public List<CheckListItem> getChecklistByDocumentIDAndUsername(Integer documentID, String username) {
-        //未来功能：老师能够为不同的文档设置不同的checklist
+        //TODO 未来功能：老师能够为不同的文档设置不同的checklist
 //        prototypeDataController.findByDocId(documentID);
         List<CheckListItemPrototype> checkListItemPrototypes = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
@@ -77,6 +77,26 @@ public class CheckListServiceImpl implements ChecklistService {
         return new ArrayList<>(typeMap.values());
     }
 
+    /**
+     * 获取某一文档所有有效的checklist
+     *
+     * @param docID 文档ID
+     */
+    @Override
+    public List<CheckListItemPrototype> getChecklistPrototypeByDocID(Integer docID) {
+        //TODO 未来功能：老师能够为不同的文档设置不同的checklist
+//        prototypeDataController.findByDocId(documentID);
+        List<CheckListItemPrototype> checkListItemPrototypes = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            CheckListItemPrototype checkListItemPrototype = new CheckListItemPrototype();
+            checkListItemPrototype.setContent("测试ck表项" + i);
+            checkListItemPrototype.setPrototypeID(i);
+            checkListItemPrototype.setExplanation("这里是老师的解释" + i);
+            checkListItemPrototypes.add(checkListItemPrototype);
+        }
+        return checkListItemPrototypes;
+    }
+
 
     /**
      * 提交某一文档的checklist
@@ -96,4 +116,16 @@ public class CheckListServiceImpl implements ChecklistService {
         checklistItemController.addAll(checkList);
         return true;
     }
+
+    /**
+     * 获取某一文档被评价的所有checklistItem
+     *
+     * @param docID
+     * @return
+     */
+    @Override
+    public List<CheckListItem> getDocResult(Integer docID) {
+        return checklistItemController.findByDocID(docID);
+    }
+
 }

@@ -1,11 +1,12 @@
 package nju.se4.demo.controller;
 
-import nju.se4.demo.DocumentVO;
 import nju.se4.demo.data.entity.CheckListItem;
 import nju.se4.demo.data.entity.Document;
 import nju.se4.demo.logic.ChecklistService;
 import nju.se4.demo.logic.DocumentService;
 import nju.se4.demo.util.Response;
+import nju.se4.demo.vo.DocResultVO;
+import nju.se4.demo.vo.DocumentVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -72,5 +73,10 @@ public class DocumentController {
                                             @RequestBody Response<List<CheckListItem>> checklist) {
         checklistService.addCheckList(checklist.getData(), username, docId);
         return new Response<>("垃圾小白！！！！");
+    }
+
+    @RequestMapping(value = "/{docId}/result", method = RequestMethod.GET)
+    public Response<List<DocResultVO>> getDocResult(@PathVariable Integer docId) {
+        return new Response<>(documentService.getDocResult(docId));
     }
 }
