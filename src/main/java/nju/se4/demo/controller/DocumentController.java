@@ -4,6 +4,7 @@ import nju.se4.demo.data.entity.CheckListItem;
 import nju.se4.demo.data.entity.Document;
 import nju.se4.demo.logic.ChecklistService;
 import nju.se4.demo.logic.DocumentService;
+import nju.se4.demo.security.SecurityUser;
 import nju.se4.demo.util.Response;
 import nju.se4.demo.vo.DocResultVO;
 import nju.se4.demo.vo.DocumentVO;
@@ -46,7 +47,8 @@ public class DocumentController {
      * @param self true:自己的文档 false:待处理文档
      */
     @RequestMapping(value = "", method = RequestMethod.GET)
-    public Response<List<DocumentVO>> getDocumentList(@AuthenticationPrincipal String username, @PathParam(value = "self") Boolean self) {
+    public Response<List<DocumentVO>> getDocumentList(@AuthenticationPrincipal SecurityUser user, @PathParam(value = "self") Boolean self) {
+        String username = user.getUsername();
         if (self) {
             List<Document> docs = documentService.getDocByAuthor(username);
             List<DocumentVO> documentVOS = docs.stream().map(DocumentVO::new).collect(Collectors.toList());

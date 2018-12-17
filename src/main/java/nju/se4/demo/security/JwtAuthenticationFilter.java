@@ -3,6 +3,7 @@ package nju.se4.demo.security;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import nju.se4.demo.security.exception.TokenErrorException;
+import org.springframework.security.authentication.AuthenticationDetailsSource;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -10,6 +11,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.AuthenticationEntryPoint;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 import javax.servlet.FilterChain;
@@ -31,6 +33,7 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
     private final String HEADER_PREFIX = "Bearer ";
     private UserDetailsService service;
     private RestAuthorEntry restAuthorEntry;
+    private AuthenticationDetailsSource<HttpServletRequest, ?> authenticationDetailsSource = new WebAuthenticationDetailsSource();
 
     public JwtAuthenticationFilter(AuthenticationManager authManager, UserDetailsService service, RestAuthorEntry restAuthorEntry) {
         super(authManager);
@@ -79,7 +82,11 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
 
                 if (user != null) {
                     UserDetails details = service.loadUserByUsername(user);
-                    return new UsernamePasswordAuthenticationToken(details.getUsername(), details.getPassword(), details.getAuthorities());
+//                    request.setAttribute("user", details);
+                    UsernamePasswordAuthenticationToken tmp = new UsernamePasswordAuthenticationToken(details, details.getPassword(), details.getAuthorities());
+                    Object o = this.authenticationDetailsSource.buildDetails(request);
+                    tmp.setDetails(o);
+                    return tmp;
                 }
             } catch (ExpiredJwtException e) {
                 throw new TokenErrorException("时间超出，请重新登录");

@@ -116,8 +116,12 @@ public class CheckListServiceImpl implements ChecklistService {
         }
 
         for (CheckListItem checkListItem : checkList) {
+
             CheckListItem remove = idCheckListMap.remove(checkListItem.getTypeID());
+            checkListItem.setContent(remove.getContent());
+            checkListItem.setExplanation(remove.getExplanation());
             checkListItem.setId(remove.getId());
+
             checkListItem.setCommentGroup(group);
             checkListItem.setDocumentID(documentID);
             idCheckListMap.put(checkListItem.getTypeID(), checkListItem);

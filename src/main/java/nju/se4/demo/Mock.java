@@ -134,7 +134,7 @@ public class Mock {
     private static User.UserBuilder UB(String username){
         return User.builder().userIdentity(UserIdentity.STUDENT).bio("我是小白名叫"+username+"的一个分身")
                 .username(username).password("{noop}"+username).nickName(username).createTime("2018-11-04").updateTime("2018-11-04")
-                .avatar("http://qlogo1.store.qq.com/qzone/648985752/648985752/100?1525621350");
+                .avatar("https://bequank.oss-cn-beijing.aliyuncs.com/web-gallery/pixiv39957555.jpg?x-oss-process=style/avatar");
     }
     private static Group.GroupBuilder GB(String name){
         return Group.builder().name(name).shareLink(name).type(GroupType.GROUP).members(new ArrayList<>());

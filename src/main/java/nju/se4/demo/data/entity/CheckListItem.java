@@ -47,6 +47,7 @@ public class CheckListItem {
     /**
      * 该项评价的内容,
      */
+    @Column(columnDefinition = "MEDIUMTEXT")
     private String content;
 
     /**
@@ -57,11 +58,13 @@ public class CheckListItem {
     /**
      * 用户的备注
      */
+    @Column(columnDefinition = "MEDIUMTEXT")
     private String comment;
 
     /**
      * 老师的说明
      */
+    @Column(columnDefinition = "MEDIUMTEXT")
     private String explanation;
 
     /**
